@@ -6,6 +6,7 @@
         public string Name { get; set; }
         public string OrigLanguage { get; set; }
         public string Genre { get; set; }
-        public AuthorModel Author { get; set; }
+        public int AuthorID { get; set; }
+        public virtual AuthorModel Author { get; set; }
     }
 }
