@@ -1,12 +1,17 @@
-﻿namespace FantasticPotato.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FantasticPotato.Models
 {
+    [Table("Books")]
     public class BookModel
     {
-        public int Id { get; set; }
+        [Key]public int Id { get; set; }
         public string Name { get; set; }
         public string OrigLanguage { get; set; }
         public string Genre { get; set; }
         public int AuthorID { get; set; }
-        public virtual AuthorModel Author { get; set; }
+
+        [ForeignKey("AuthorID")] public AuthorModel Author { get; set; }
     }
 }
