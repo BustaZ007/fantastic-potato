@@ -31,7 +31,7 @@ namespace FantasticPotato
             services.AddControllersWithViews();
             services.AddSpaStaticFiles(options => options.RootPath = "client-app/dist");
 
-            services.AddDbContext<AppDbContent>(options =>
+            services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
         }
 
