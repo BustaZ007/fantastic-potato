@@ -30,16 +30,20 @@ namespace FantasticPotato
         {
             services.AddControllersWithViews();
             services.AddSpaStaticFiles(options => options.RootPath = "client-app/dist");
-
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            _confString = new ConfigurationBuilder().SetBasePath(env.ContentRootPath).AddJsonFile("dbsettings.json")
-                .Build();
+            var db = app.ApplicationServices.GetService<AppDbContext>();
+            db.Database.EnsureCreated();
+
+            var str = app.ApplicationServices.GetService<AppDbContext>().Database
+                .ExecuteSqlRaw(" SELECT name from Users Where id =1 ;").ToString();
+            Console.WriteLine("+++++++++++++++++++++++++++");
+            Console.WriteLine(str);
+            Console.WriteLine("+++++++++++++++++++++++++++");
 
             if (env.IsDevelopment())
             {
