@@ -7,6 +7,16 @@ namespace FantasticPotato.Models
     [Table("Feedbacks")]
     public class FeedbackModel
     {
+        public FeedbackModel(int id, int bookId, int userId, string text, int rating)
+        {
+            Id = id;
+            BookId = bookId;
+            UserId = userId;
+            DateOfWriting = DateTime.Now;
+            Text = text;
+            Rating = rating;
+        }
+
         [Key] public int Id { get; set; }
         public int BookId { get; set; }
         public int UserId { get; set; }

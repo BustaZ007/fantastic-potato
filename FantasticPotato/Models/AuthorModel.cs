@@ -9,6 +9,15 @@ namespace FantasticPotato.Models
     [Table("Authors")]
     public class AuthorModel
     {
+        public AuthorModel(int id, string name, string surname, DateTime dateOfBirth, string country)
+        {
+            Id = id;
+            Name = name;
+            Surname = surname;
+            DateOfBirth = dateOfBirth;
+            Country = country;
+        }
+
         [Key]public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }

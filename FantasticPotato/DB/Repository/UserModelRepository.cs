@@ -19,6 +19,7 @@ namespace FantasticPotato.DB.Repository
             _appDbContext = appDbContext;
         }
         
+        
         public void AddNew(UserModel user)
         {
             _appDbContext.Entry(user).State = EntityState.Added;

@@ -11,7 +11,6 @@ namespace FantasticPotato.Interfaces
         UserModel GetUserById(int id);
         FeedbackModel GetFeedbackById(int id);
         void DeleteById(int id);
-        AuthorModel GetAuthorById(int id);
         IEnumerable<FeedbackModel> GetAllFeedback { get; }
     }
 }

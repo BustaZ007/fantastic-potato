@@ -7,10 +7,10 @@ namespace FantasticPotato.Interfaces
     {
         void AddNew(AuthorModel author);
         void Update (int id);
-        UserModel GetById(int id);
+        AuthorModel GetById(int id);
         void DeleteById(int id);
         
-        IEnumerable<UserModel> GetAllAuthors { get; }
+        IEnumerable<AuthorModel> GetAllAuthors { get; }
         
     }
 }
