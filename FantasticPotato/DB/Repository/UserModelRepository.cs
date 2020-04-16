@@ -14,9 +14,9 @@ namespace FantasticPotato.DB.Repository
     {
         private readonly AppDbContext _appDbContext;
 
-        public UserModelRepository(AppDbContext appDbContext)
+        public UserModelRepository()
         {
-            _appDbContext = appDbContext;
+            _appDbContext = new AppDbContext();
         }
         
         
@@ -33,6 +33,10 @@ namespace FantasticPotato.DB.Repository
         }
 
         public UserModel GetById(int id) => _appDbContext.UserModels.FirstOrDefault(p => p.Id == id);
+        
+        public UserModel GetByLogin(string login) => _appDbContext.UserModels.FirstOrDefault(p => p.Login == login);
+        
+        public UserModel GetByEmail(string mail) => _appDbContext.UserModels.FirstOrDefault(p => p.Mail == mail);
 
 
         public void DeleteById(int id)
