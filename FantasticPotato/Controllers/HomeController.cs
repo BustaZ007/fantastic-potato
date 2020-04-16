@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using FantasticPotato.DB.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FantasticPotato.Models;
@@ -13,14 +14,23 @@ namespace FantasticPotato.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly UserModelRepository _userModelRepository;
+
+        // public HomeController(ILogger<HomeController> logger)
+        // {
+        //     _logger = logger;
+        // }
+        public HomeController(UserModelRepository userModelRepository)
         {
-            _logger = logger;
+            _userModelRepository = userModelRepository;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var users = _userModelRepository.GetAllUser;
+
+
+            return View(users);
         }
 
         public IActionResult Privacy()
