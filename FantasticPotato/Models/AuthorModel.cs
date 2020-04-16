@@ -9,19 +9,23 @@ namespace FantasticPotato.Models
     [Table("Authors")]
     public class AuthorModel
     {
-        public AuthorModel(int id, string name, string surname, DateTime dateOfBirth, string country)
+        public AuthorModel(int id, string name, string surname, DateTime dob, string country)
         {
             Id = id;
             Name = name;
             Surname = surname;
-            DateOfBirth = dateOfBirth;
+            DOB = dob;
             Country = country;
+        }
+
+        public AuthorModel()
+        {
         }
 
         [Key]public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime DOB { get; set; }
         public string Country { get; set; }
         [InverseProperty("Author")]
         public IEnumerable<BookModel> Books{ get; set; }

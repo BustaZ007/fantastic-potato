@@ -17,6 +17,10 @@ namespace FantasticPotato.Models
             Rating = rating;
         }
 
+        public FeedbackModel()
+        {
+        }
+
         [Key] public int Id { get; set; }
         public int BookId { get; set; }
         public int UserId { get; set; }

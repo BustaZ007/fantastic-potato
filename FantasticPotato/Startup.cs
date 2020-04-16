@@ -41,8 +41,9 @@ namespace FantasticPotato
 
             var str = app.ApplicationServices.GetService<AppDbContext>().Database
                 .ExecuteSqlRaw(" SELECT name from Users Where id =1 ;").ToString();
+            var users = db.UserModels.Where(p=> p.Id == 1).ToArray();
             Console.WriteLine("+++++++++++++++++++++++++++");
-            Console.WriteLine(str);
+            Console.WriteLine(users[0].Mail);
             Console.WriteLine("+++++++++++++++++++++++++++");
 
             if (env.IsDevelopment())
