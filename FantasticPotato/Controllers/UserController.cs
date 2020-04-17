@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using FantasticPotato.DB.Repository;
 using FantasticPotato.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FantasticPotato.Controllers

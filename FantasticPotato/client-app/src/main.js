@@ -6,7 +6,7 @@ import router from "./router";
 Vue.config.productionTip = false;
 
 const api = Axios.create({
-  baseURL: 'http://localhost:5000'
+  baseURL: 'http://localhost:5000/'
 });
 
 const axiosPlugin = {

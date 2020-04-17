@@ -1,19 +1,20 @@
 <template>
     <div>
         <Form v-model = "form">
-            <TextField v-model = "form.login" value="login" label-placeholder="Login or email"></TextField>
-            <TextField v-model = "form.password" value="password" label-placeholder="Password"></TextField>
+            <input type="text" v-model = "form.login" value="000" required>
+            <input type="password" v-model = "form.password" required>
             <button @click="authorization">Login</button>
         </Form>
+        <div>
+            <p>{{form.login}} / {{form.password}}</p>
+        </div>
     </div>
 </template>
 
 <script>
-    import TextField from "../components/TextField";
     import Form from "../components/Form";
 
     export default {
-        name: 'Login',
         data(){ return{
             form: {
                 login: "",
@@ -22,13 +23,11 @@
         }
         },
         components: {
-            TextField,
             Form
         },
         methods: {
             authorization(){
-                this.$api.post("Authorization", this.form).then(res =>
-                alert(res.data));
+                this.$api.post("Authorization/Authorization", this.form).then(res => alert(res.data));
             }
         }
     }

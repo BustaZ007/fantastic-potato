@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using FantasticPotato.DB.Repository;
+using FantasticPotato.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FantasticPotato.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
     public class AuthorizationController  : Controller
     {
 
@@ -18,14 +18,23 @@ namespace FantasticPotato.Controllers
         }
 
         [HttpPost]
-        public IActionResult Authorization(string login, string password)
+        public IActionResult Authorization([FromBody]UserModel userv)
         {
-            if (_userModelRepository.GetByLogin(login) == null)
-                return BadRequest("Day jopu bliyat\'");
-
-            var user = _userModelRepository.GetByLogin(login);
-            if (user.Password != password)
+            Console.WriteLine(userv.Login);
+            Console.WriteLine(userv.Password);
+            if (_userModelRepository.GetByLogin(userv.Login) == null)
             {
+                Console.WriteLine("Not found");
+                return BadRequest();
+            }
+
+            var user = _userModelRepository.GetByLogin(userv.Login);
+            Console.WriteLine(user.Login);
+            Console.WriteLine(user.Password);
+            if (user.Password != userv.Password)
+            {
+                Console.WriteLine("Error pass");
+                Console.WriteLine(user.Password);
                 return BadRequest();
             }
             return Ok();

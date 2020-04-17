@@ -32,20 +32,23 @@ namespace FantasticPotato
             services.AddControllers();
             services.AddSpaStaticFiles(options => options.RootPath = "client-app/dist");
             services.AddDbContext<AppDbContext>();
-            // services.AddCors(options =>
-            // {
-            //     options.AddPolicy("CorsPolicy",
-            //         builder => builder.AllowAnyOrigin()
-            //             .AllowAnyMethod()
-            //             .AllowAnyHeader());
-            // });
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder => builder.AllowAnyOrigin()
+                                                            .AllowAnyMethod()
+                                                            .AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var db = app.ApplicationServices.GetService<AppDbContext>();
-            db.Database.EnsureCreated();
+            // db.Database.EnsureCreated();
+            Console.WriteLine("+++++++++++++++++++++++++++");
+            var usr = db.UserModels.FirstOrDefault(p => p.Id == 1);
+            Console.WriteLine(usr==null?"Not Fount":usr.Login);
+            Console.WriteLine("+++++++++++++++++++++++++++");
 
             if (env.IsDevelopment())
             {
@@ -58,7 +61,10 @@ namespace FantasticPotato
                 app.UseHsts();
             }
 
-            app.UseCors(options => { options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials(); });
+            app.UseCors();
+
+            app.UseRouting();
+            app.UseEndpoints(e => { e.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
             app.UseSpaStaticFiles();
             app.UseSpa(spa =>
             {

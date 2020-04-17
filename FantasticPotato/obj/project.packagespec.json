@@ -1,14 +1,11 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/Users/pavelzaborin/RiderProjects/FantasticPotato/fantastic-potato/FantasticPotato/FantasticPotato.csproj",
+    "projectUniqueName": "C:\\Users\\Вувка\\RiderProjects\\fantastic-potato\\FantasticPotato\\FantasticPotato.csproj",
     "projectName": "FantasticPotato",
-    "projectPath": "/Users/pavelzaborin/RiderProjects/FantasticPotato/fantastic-potato/FantasticPotato/FantasticPotato.csproj",
-    "outputPath": "/Users/pavelzaborin/RiderProjects/FantasticPotato/fantastic-potato/FantasticPotato/obj/",
+    "projectPath": "C:\\Users\\Вувка\\RiderProjects\\fantastic-potato\\FantasticPotato\\FantasticPotato.csproj",
+    "outputPath": "C:\\Users\\Вувка\\RiderProjects\\fantastic-potato\\FantasticPotato\\obj\\",
     "projectStyle": "PackageReference",
-    "fallbackFolders": [
-      "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
-    ],
     "originalTargetFrameworks": [
       "netcoreapp3.1"
     ],
@@ -56,7 +53,7 @@
           "privateAssets": "all"
         }
       },
-      "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.101/RuntimeIdentifierGraph.json"
+      "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
     }
   }
 }

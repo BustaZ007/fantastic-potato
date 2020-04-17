@@ -1,4 +1,5 @@
 ﻿using FantasticPotato.DB.Repository;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 namespace FantasticPotato.Models.DBModels
@@ -11,7 +12,7 @@ namespace FantasticPotato.Models.DBModels
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlite(
-                    "Data Source = /Users/pavelzaborin/RiderProjects/FantasticPotato/fantastic-potato/FantasticPotato/fantastic_potato.db");
+                    "Data Source = C:/Users/Вувка/RiderProjects/fantastic-potato/FantasticPotato/fantastic_potato.db");
             }
         }
 
