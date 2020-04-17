@@ -29,8 +29,16 @@ namespace FantasticPotato
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddControllers();
             services.AddSpaStaticFiles(options => options.RootPath = "client-app/dist");
             services.AddDbContext<AppDbContext>();
+            // services.AddCors(options =>
+            // {
+            //     options.AddPolicy("CorsPolicy",
+            //         builder => builder.AllowAnyOrigin()
+            //             .AllowAnyMethod()
+            //             .AllowAnyHeader());
+            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,13 +46,6 @@ namespace FantasticPotato
         {
             var db = app.ApplicationServices.GetService<AppDbContext>();
             db.Database.EnsureCreated();
-
-            var str = app.ApplicationServices.GetService<AppDbContext>().Database
-                .ExecuteSqlRaw(" SELECT name from Users Where id =1 ;").ToString();
-            var users = db.UserModels.Where(p=> p.Id == 1).ToArray();
-            Console.WriteLine("+++++++++++++++++++++++++++");
-            Console.WriteLine(users[0].Mail);
-            Console.WriteLine("+++++++++++++++++++++++++++");
 
             if (env.IsDevelopment())
             {
@@ -57,9 +58,7 @@ namespace FantasticPotato
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseRouting();
-
+            app.UseCors(options => { options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials(); });
             app.UseSpaStaticFiles();
             app.UseSpa(spa =>
             {

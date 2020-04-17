@@ -11,7 +11,7 @@ namespace FantasticPotato.Models.DBModels
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlite(
-                    "Data Source = E:/RiderProjects/fantastic-potato/FantasticPotato/fantastic_potato.db");
+                    "Data Source = /Users/pavelzaborin/RiderProjects/FantasticPotato/fantastic-potato/FantasticPotato/fantastic_potato.db");
             }
         }
 
