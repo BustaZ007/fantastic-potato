@@ -33,9 +33,9 @@ namespace FantasticPotato.Controllers
                 return BadRequest("Date of birth problem");
             }
             
-            var pattern=@"[@-.?!)(,:]";
-            var reg = new Regex(pattern);
-            if(reg.IsMatch(user.Login))
+            // var pattern=@"[@-.?!)(,:]";
+            // var reg = new Regex(pattern);
+            if(user.Login.Contains("@"))
             {
                 return BadRequest("Login can't contains service symbol");
             }
