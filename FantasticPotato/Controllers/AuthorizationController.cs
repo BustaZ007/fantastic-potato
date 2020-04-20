@@ -14,13 +14,15 @@ using Microsoft.Extensions.Logging;
 
 namespace FantasticPotato.Controllers
 {
+    [Route("[controller]")]
+    [ApiController]
     public class AuthorizationController : Controller
     {
         private readonly UserModelRepository _userModelRepository;
         private readonly ILogger<AuthorizationController> _logger;
 
 
-        public AuthorizationController(ILogger<AuthorizationController> logger)
+        public AuthorizationController( ILogger<AuthorizationController> logger )
         {
             _logger = logger;
             _userModelRepository = new UserModelRepository();
@@ -37,31 +39,28 @@ namespace FantasticPotato.Controllers
             UserModel user;
             if (string.IsNullOrEmpty(userv.Login) || string.IsNullOrEmpty(userv.Password))
             {
-                _logger.LogWarning(  "[AuthorizationController.Authorization] " + "\n Remote ip : " + ip + 
-                                   "\n User-agent : " + userAgent + 
+                _logger.LogWarning("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip +
+                                   "\n User-agent : " + userAgent +
                                    "\n One of fields is empty");
                 return Conflict("Fields required");
             }
 
 
-            Console.WriteLine(userv.Login);
-            Console.WriteLine(userv.Password);
+            Console.WriteLine("userv: " + userv.Login);
+            Console.WriteLine("userv: " + userv.Password);
 
 
-            // var pattern = @"\[\-\.\?\!\)\@\(\,\:]";
-            // var reg = new Regex(pattern); !reg.IsMatch(userv.Login)
-            if (userv.Login.Contains("@"))
+            if (Regex.IsMatch(userv.Login, @"[^\w\.@-\\%]"))
             {
                 Console.WriteLine("Service symbol");
                 if (_userModelRepository.GetByEmail(userv.Login) == null)
                 {
                     Console.WriteLine("Not found by email!");
-                    _logger.LogWarning("[AuthorizationController.Authorization] " +"\n Remote ip : " + ip + 
-                                       "\n User-agent : " + userAgent + 
+                    _logger.LogWarning("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip +
+                                       "\n User-agent : " + userAgent +
                                        "\n EMail: " + userv.Login +
                                        "\n User not found by email");
                     return BadRequest("User not found by email"!);
-                    
                 }
                 else
                 {
@@ -70,10 +69,10 @@ namespace FantasticPotato.Controllers
             }
             else
             {
-                if (_userModelRepository.GetByLogin(userv.Login) == null)
+                if ( _userModelRepository.GetByLogin(userv.Login) == null)
                 {
-                    _logger.LogWarning("[AuthorizationController.Authorization] " +"\n Remote ip : " + ip + 
-                                       "\n User-agent : " + userAgent + 
+                    _logger.LogWarning("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip +
+                                       "\n User-agent : " + userAgent +
                                        "\n Login: " + userv.Login +
                                        "\n User not found by login");
                     Console.WriteLine("Not found!");
@@ -86,22 +85,25 @@ namespace FantasticPotato.Controllers
             }
 
 
-            Console.WriteLine(user.Login);
-            Console.WriteLine(user.Password);
-            if (user.Password != userv.Password)
+            Console.WriteLine("user: " + user.Login);
+            Console.WriteLine("user: " + user.Password);
+            
+            // Сделать проверку по хэшу пароля, клгда он будет добавлен в регистрацию ( так же поменять это в ЮзерМодели)
+            if (!user.Password.Equals(userv.Password) )
             {
-                _logger.LogWarning("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip + 
-                                   "\n User-agent : " + userAgent + 
+                _logger.LogWarning("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip +
+                                   "\n User-agent : " + userAgent +
                                    "\n Login: " + userv.Login +
                                    "\n Password mismatch!");
                 Console.WriteLine("Error pass"!);
                 Console.WriteLine(user.Password);
                 return BadRequest("Password mismatch!");
             }
-            _logger.LogInformation("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip + 
-                               "\n User-agent : " + userAgent + 
-                               "\n Login: " + userv.Login +
-                               "\n Well done!");
+
+            _logger.LogInformation("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip +
+                                   "\n User-agent : " + userAgent +
+                                   "\n Login: " + userv.Login +
+                                   "\n Authorization was successful!");
             return Ok();
         }
     }

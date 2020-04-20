@@ -16,9 +16,6 @@ namespace FantasticPotato
 {
     public class Startup
     {
-        private IConfigurationRoot _confString;
-
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -36,8 +33,8 @@ namespace FantasticPotato
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder => builder.AllowAnyOrigin()
-                                                            .AllowAnyMethod()
-                                                            .AllowAnyHeader());
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
             });
         }
 
@@ -46,11 +43,11 @@ namespace FantasticPotato
         {
             var db = app.ApplicationServices.GetService<AppDbContext>();
             loggerFactory.AddFile("Logs/mylog-{Date}.txt");
-            // db.Database.EnsureCreated();
-            Console.WriteLine("+++++++++++++++++++++++++++");
-            var usr = db.UserModels.FirstOrDefault(p => p.Id == 1);
-            Console.WriteLine(usr==null?"Not Fount":usr.Login);
-            Console.WriteLine("+++++++++++++++++++++++++++");
+            db.Database.EnsureCreated();
+            // Console.WriteLine("+++++++++++++++++++++++++++");
+            // var usr = db.UserModels.FirstOrDefault(p => p.Id == 1);
+            // Console.WriteLine(usr==null?"Not Fount":usr.Login);
+            // Console.WriteLine("+++++++++++++++++++++++++++");
 
             if (env.IsDevelopment())
             {
