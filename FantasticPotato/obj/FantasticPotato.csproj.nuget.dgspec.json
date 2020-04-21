@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/pavelzaborin/RiderProjects/FantasticPotato/fantastic-potato/FantasticPotato/FantasticPotato.csproj": {}
+    "E:\\RiderProjects\\fantastic-potato\\FantasticPotato\\FantasticPotato.csproj": {}
   },
   "projects": {
-    "/Users/pavelzaborin/RiderProjects/FantasticPotato/fantastic-potato/FantasticPotato/FantasticPotato.csproj": {
+    "E:\\RiderProjects\\fantastic-potato\\FantasticPotato\\FantasticPotato.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/pavelzaborin/RiderProjects/FantasticPotato/fantastic-potato/FantasticPotato/FantasticPotato.csproj",
+        "projectUniqueName": "E:\\RiderProjects\\fantastic-potato\\FantasticPotato\\FantasticPotato.csproj",
         "projectName": "FantasticPotato",
-        "projectPath": "/Users/pavelzaborin/RiderProjects/FantasticPotato/fantastic-potato/FantasticPotato/FantasticPotato.csproj",
-        "packagesPath": "/Users/pavelzaborin/.nuget/packages/",
-        "outputPath": "/Users/pavelzaborin/RiderProjects/FantasticPotato/fantastic-potato/FantasticPotato/obj/",
+        "projectPath": "E:\\RiderProjects\\fantastic-potato\\FantasticPotato\\FantasticPotato.csproj",
+        "packagesPath": "C:\\Users\\Dmitriy\\.nuget\\packages\\",
+        "outputPath": "E:\\RiderProjects\\fantastic-potato\\FantasticPotato\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "/Users/pavelzaborin/.config/NuGet/NuGet.Config"
+          "C:\\Users\\Dmitriy\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -42,6 +39,10 @@
             "Microsoft.AspNetCore.SpaServices.Extensions": {
               "target": "Package",
               "version": "[3.1.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[5.0.0-preview.2.20159.4, )"
             }
           },
           "imports": [
@@ -62,7 +63,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
