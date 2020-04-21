@@ -1,12 +1,17 @@
 <template>
     <div class="text-input">
         <label>{{labelPlaceholder}}</label>
-        <input required>
+        <input  type="{{type}}" value="{{value}}" required = {{required}}>
     </div>
 </template>
 
 <script>
     export default {
+        data(){
+            return{
+                inputField: ""
+            }
+        },
         props: {
             value: {
                 required: true,
@@ -15,6 +20,19 @@
             labelPlaceholder: {
                 required: false,
                 type: String
+            },
+            type:{
+                required: true,
+                type: String
+            },
+            required:{
+                type: Boolean,
+                default : false
+            }
+        },
+        computed:{
+            validate(){
+                
             }
         }
     }

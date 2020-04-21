@@ -9,5 +9,9 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.0-preview.2.20159.4" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Pages\Login" />
+    </ItemGroup>
+
 
 </Project>

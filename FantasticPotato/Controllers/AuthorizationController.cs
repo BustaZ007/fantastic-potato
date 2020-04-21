@@ -18,14 +18,14 @@ namespace FantasticPotato.Controllers
         }
 
         [HttpPost]
-        public IActionResult Authorization([FromBody]UserModel userv)
+        public UserModel Authorization([FromBody]UserModel userv)
         {
             Console.WriteLine(userv.Login);
             Console.WriteLine(userv.Password);
             if (_userModelRepository.GetByLogin(userv.Login) == null)
             {
                 Console.WriteLine("Not found");
-                return BadRequest();
+                return null;
             }
 
             var user = _userModelRepository.GetByLogin(userv.Login);
@@ -35,9 +35,9 @@ namespace FantasticPotato.Controllers
             {
                 Console.WriteLine("Error pass");
                 Console.WriteLine(user.Password);
-                return BadRequest();
+                return null;
             }
-            return Ok();
+            return user;
         }
 
     }

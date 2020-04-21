@@ -2,13 +2,13 @@
 using System.Diagnostics;
 using FantasticPotato.DB.Repository;
 using FantasticPotato.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FantasticPotato.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
+    [Authorize]
     public class UserController : Controller
     {
         private readonly UserModelRepository _userModelRepository;
