@@ -1,20 +1,18 @@
 <template>
   <div id="app">
-    <Home></Home>
-    <Login></Login>
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+      <span v-if="isLoggedIn">|<a @click="logout">Logout</a></span>
+    </div>
+    <router-view/>
   </div>
 </template>
 
 <script>
-
-import Home from  './pages/Home'
-import Login from  './pages/Login'
-
 export default {
-  name: 'App',
-  components: {
-    Home,
-    Login
+  computed :{
+    isLoggedIn : function () { return false
+    }
   }
 }
 </script>

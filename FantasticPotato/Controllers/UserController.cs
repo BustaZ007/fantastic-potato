@@ -1,6 +1,13 @@
 ﻿using System.Diagnostics;
 using FantasticPotato.DB.Repository;
 using FantasticPotato.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using FantasticPotato.DB.Repository;
+using FantasticPotato.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FantasticPotato.Controllers
@@ -14,18 +21,12 @@ namespace FantasticPotato.Controllers
             _userModelRepository = new UserModelRepository();
         }
 
-        [HttpGet("{id}")]
-        public UserModel GetUser(int id)
+        [Authorize]
+        public UserModel GetUser([FromBody]string login)
         {
-            var user = _userModelRepository.GetById(id);
+            var user = _userModelRepository.GetByLogin(login);
+            Console.WriteLine(user.Login);
             return user;
-        }
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
     }
 }

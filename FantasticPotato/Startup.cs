@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FantasticPotato.Models.DBModels;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +37,11 @@ namespace FantasticPotato
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/login");
+            });
+            // services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,10 +50,6 @@ namespace FantasticPotato
             var db = app.ApplicationServices.GetService<AppDbContext>();
             loggerFactory.AddFile("Logs/mylog-{Date}.txt");
             db.Database.EnsureCreated();
-            // Console.WriteLine("+++++++++++++++++++++++++++");
-            // var usr = db.UserModels.FirstOrDefault(p => p.Id == 1);
-            // Console.WriteLine(usr==null?"Not Fount":usr.Login);
-            // Console.WriteLine("+++++++++++++++++++++++++++");
 
             if (env.IsDevelopment())
             {
@@ -63,6 +65,9 @@ namespace FantasticPotato
             app.UseCors();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(e => { e.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
             app.UseSpaStaticFiles();
             app.UseSpa(spa =>

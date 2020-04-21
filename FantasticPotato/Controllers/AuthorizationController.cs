@@ -4,8 +4,14 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using FantasticPotato.DB.Repository;
 using FantasticPotato.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 namespace FantasticPotato.Controllers
@@ -23,13 +29,11 @@ namespace FantasticPotato.Controllers
         }
 
         [HttpPost]
-        public IActionResult Authorization([FromBody] UserModel userv)
+        public  async Task<IActionResult> Authorization([FromBody] UserModel userv)
         {
             IPHostEntry heserver = Dns.GetHostEntry(Dns.GetHostName());
             var ip = heserver.AddressList[2].ToString();
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
-            Console.WriteLine("Remote ip : " + ip);
-            Console.WriteLine("User-agent : " + userAgent);
             UserModel user;
             if (string.IsNullOrEmpty(userv.Login) || string.IsNullOrEmpty(userv.Password))
             {
@@ -38,28 +42,19 @@ namespace FantasticPotato.Controllers
                                    "\n One of fields is empty");
                 return Conflict("Fields required");
             }
-
-
-            Console.WriteLine("userv: " + userv.Login);
-            Console.WriteLine("userv: " + userv.Password);
-
-
+            
             if (Regex.IsMatch(userv.Login, @"[^\w\.@-\\%]"))
             {
-                Console.WriteLine("Service symbol");
                 if (_userModelRepository.GetByEmail(userv.Login) == null)
                 {
-                    Console.WriteLine("Not found by email!");
                     _logger.LogWarning("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip +
                                        "\n User-agent : " + userAgent +
                                        "\n EMail: " + userv.Login +
                                        "\n User not found by email");
-                    return BadRequest("User not found by email"!);
+                    return Content("User not found by email"!);
                 }
                 else
-                {
                     user = _userModelRepository.GetByEmail(userv.Login);
-                }
             }
             else
             {
@@ -70,24 +65,17 @@ namespace FantasticPotato.Controllers
                                        "\n Login: " + userv.Login +
                                        "\n User not found by login");
                     Console.WriteLine("Not found!");
-                    return BadRequest("User not found"!);
+                    return Content("User not found"!);
                 }
                 else
-                {
                     user = _userModelRepository.GetByLogin(userv.Login);
-                }
             }
-
-
-            Console.WriteLine("user: " + user.Login);
-            Console.WriteLine("user: " + user.Password);
-
+            
             SHA1 sha1Hash = SHA1.Create();
             byte[] sourceBytes = Encoding.UTF8.GetBytes(userv.Password);
             byte[] hashBytes = sha1Hash.ComputeHash(sourceBytes);
             string hashPass = BitConverter.ToString(hashBytes).Replace("-", String.Empty);
 
-            // Console.WriteLine("The SHA1 hash of " + userv.Login + " is: " + hashPass);
             if (!user.Password.Equals(hashPass))
             {
                 _logger.LogWarning("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip +
@@ -96,14 +84,27 @@ namespace FantasticPotato.Controllers
                                    "\n Password mismatch!");
                 Console.WriteLine("Error pass"!);
                 Console.WriteLine(user.Password);
-                return BadRequest("Password mismatch!");
+                return Content("Password mismatch!");
             }
 
             _logger.LogInformation("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip +
                                    "\n User-agent : " + userAgent +
                                    "\n Login: " + userv.Login +
                                    "\n Authorization was successful!");
-            return Ok();
+            await Authenticate(user);
+            return Ok(user);
+        }
+        
+        private async Task Authenticate(UserModel user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login)
+            };
+
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
     }
 }
