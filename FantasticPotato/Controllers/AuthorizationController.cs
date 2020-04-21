@@ -1,28 +1,22 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using FantasticPotato.DB.Repository;
 using FantasticPotato.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Logging;
-
 namespace FantasticPotato.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
     public class AuthorizationController : Controller
     {
         private readonly UserModelRepository _userModelRepository;
         private readonly ILogger<AuthorizationController> _logger;
 
 
-        public AuthorizationController( ILogger<AuthorizationController> logger )
+        public AuthorizationController(ILogger<AuthorizationController> logger)
         {
             _logger = logger;
             _userModelRepository = new UserModelRepository();
@@ -69,7 +63,7 @@ namespace FantasticPotato.Controllers
             }
             else
             {
-                if ( _userModelRepository.GetByLogin(userv.Login) == null)
+                if (_userModelRepository.GetByLogin(userv.Login) == null)
                 {
                     _logger.LogWarning("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip +
                                        "\n User-agent : " + userAgent +
@@ -87,9 +81,14 @@ namespace FantasticPotato.Controllers
 
             Console.WriteLine("user: " + user.Login);
             Console.WriteLine("user: " + user.Password);
-            
-            // Сделать проверку по хэшу пароля, клгда он будет добавлен в регистрацию ( так же поменять это в ЮзерМодели)
-            if (!user.Password.Equals(userv.Password) )
+
+            SHA1 sha1Hash = SHA1.Create();
+            byte[] sourceBytes = Encoding.UTF8.GetBytes(userv.Password);
+            byte[] hashBytes = sha1Hash.ComputeHash(sourceBytes);
+            string hashPass = BitConverter.ToString(hashBytes).Replace("-", String.Empty);
+
+            // Console.WriteLine("The SHA1 hash of " + userv.Login + " is: " + hashPass);
+            if (!user.Password.Equals(hashPass))
             {
                 _logger.LogWarning("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip +
                                    "\n User-agent : " + userAgent +

@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using FantasticPotato.DB.Repository;
 using FantasticPotato.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace FantasticPotato.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
     public class RegistrationController : Controller
     {
         private readonly UserModelRepository _userModelRepository;
@@ -82,9 +81,14 @@ namespace FantasticPotato.Controllers
                 return BadRequest("Login can't contains service symbol");
             }
 
+            SHA1 sha1Hash = SHA1.Create();
+            byte[] sourceBytes = Encoding.UTF8.GetBytes(user.Password);
+            byte[] hashBytes = sha1Hash.ComputeHash(sourceBytes);
+            string hashPass = BitConverter.ToString(hashBytes).Replace("-", String.Empty);
 
+            user.Password = hashPass;
             _userModelRepository.AddNew(user);
-            
+
             _logger.LogInformation("[AuthorizationController.Authorization] " + "\n Remote ip : " + ip +
                                    "\n User-agent : " + userAgent +
                                    "\n Login: " + user.Login +

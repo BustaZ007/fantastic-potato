@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using FantasticPotato.DB.Repository;
 using FantasticPotato.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FantasticPotato.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
     public class UserController : Controller
     {
         private readonly UserModelRepository _userModelRepository;
