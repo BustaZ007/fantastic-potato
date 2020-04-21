@@ -15,12 +15,10 @@
             }
         },
         mounted() {
-            this.$api.get("UserController/GetUser", {
-                params: {
-                    login: localStorage.getItem('user-token')
-                }
-            }).then(res =>
-                this.profile = res.data);
+            this.$api.get("User/GetUser/" + localStorage.getItem('user-token')).then(res =>{
+                this.profile = res.data;
+                console.log(res.data);
+            });
         }
     }
 </script>

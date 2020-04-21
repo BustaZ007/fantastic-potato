@@ -8,6 +8,7 @@
             <input required v-model="form.password" type="password" placeholder="Password"/>
             <hr/>
             <button type="submit">Войти</button>
+            <p v-if="errorView">{{error}}</p>
         </form>
     </div>
 </template>
@@ -20,18 +21,23 @@
                 form: {
                     login: "",
                     password: ""
-                }
+                },
+                error: "",
+                errorView: false
             }
         },
         methods: {
             authorization(){
                 myLoginRoutine(this.form).then(res => {
-                    if(res.request.response === "ErrorLogin"){
-                        console.log("Неверный логин или пароль")
+                    let errors = ['User not found by email', 'User not found', 'Password mismatch!'];
+                    if(errors.includes(res.data)){
+                        this.error = res.data;
+                        this.errorView = true;
                     }
                     else {
-                        this.$router.push('/')}
-                    })
+                        this.$router.push('/')
+                    }
+                })
             }
         }
     }
