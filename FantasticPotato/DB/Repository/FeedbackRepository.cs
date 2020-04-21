@@ -9,12 +9,11 @@ namespace FantasticPotato.DB.Repository
 {
     public class FeedbackRepository : IFeedbackRepository
     {
-        
         private readonly AppDbContext _appDbContext;
 
-        public FeedbackRepository(AppDbContext appDbContext)
+        public FeedbackRepository()
         {
-            _appDbContext = appDbContext;
+            _appDbContext = new AppDbContext();
         }
 
         public void AddNew(FeedbackModel feedback)
@@ -28,7 +27,7 @@ namespace FantasticPotato.DB.Repository
             throw new System.NotImplementedException();
         }
 
-        public BookModel GetBookById(int id) =>_appDbContext.BookModels.FirstOrDefault(p => p.Id == id);
+        public BookModel GetBookById(int id) => _appDbContext.BookModels.FirstOrDefault(p => p.Id == id);
 
         public UserModel GetUserById(int id) => _appDbContext.UserModels.FirstOrDefault(p => p.Id == id);
 

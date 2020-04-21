@@ -11,14 +11,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace FantasticPotato
 {
     public class Startup
     {
-        private IConfigurationRoot _confString;
-
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -36,8 +34,8 @@ namespace FantasticPotato
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder => builder.AllowAnyOrigin()
-                                                            .AllowAnyMethod()
-                                                            .AllowAnyHeader());
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
             });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
@@ -47,9 +45,10 @@ namespace FantasticPotato
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             var db = app.ApplicationServices.GetService<AppDbContext>();
+            loggerFactory.AddFile("Logs/mylog-{Date}.txt");
             db.Database.EnsureCreated();
 
             if (env.IsDevelopment())

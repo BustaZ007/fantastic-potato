@@ -1,4 +1,5 @@
-﻿using FantasticPotato.DB.Repository;
+﻿using System.IO;
+using FantasticPotato.DB.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,8 +12,10 @@ namespace FantasticPotato.Models.DBModels
         {
             if (!optionsBuilder.IsConfigured)
             {
+                // Я не знаю почему, но это не рабоатет
+                // optionsBuilder.UseSqlite(Path.Combine(env.ContentRootPath, "fantastic_potato.db"));
                 optionsBuilder.UseSqlite(
-                    "Data Source = C:/Users/Вувка/RiderProjects/fantastic-potato/FantasticPotato/fantastic_potato.db");
+                "Data Source = E:/RiderProjects/fantastic-potato/FantasticPotato/fantastic_potato.db");
             }
         }
 
