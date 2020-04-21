@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using FantasticPotato.DB.Repository;
 using FantasticPotato.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,27 +23,28 @@ namespace FantasticPotato.Controllers
         }
 
         [HttpPost]
-        public UserModel Authorization([FromBody]UserModel userv)
+        public async Task<IActionResult> Authorization([FromBody]UserModel userv)
         {
-            Console.WriteLine(userv.Login);
-            Console.WriteLine(userv.Password);
-            if (_userModelRepository.GetByLogin(userv.Login) == null)
+            var user = _userModelRepository.GetByLogin(userv.Login);
+            if (_userModelRepository.GetByLogin(userv.Login) != null && user.Password == userv.Password)
             {
-                Console.WriteLine("Not found");
-                return null;
+                await Authenticate(user);
+                return Ok(user);
             }
 
-            var user = _userModelRepository.GetByLogin(userv.Login);
-            Console.WriteLine(user.Login);
-            Console.WriteLine(user.Password);
-            if (user.Password != userv.Password)
-            {
-                Console.WriteLine("Error pass");
-                Console.WriteLine(user.Password);
-                return null;
-            }
-            return user;
+            return Content("ErrorLogin");
         }
 
+        private async Task Authenticate(UserModel user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login)
+            };
+
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
     }
 }

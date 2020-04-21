@@ -7,7 +7,7 @@
             <label>Password</label>
             <input required v-model="form.password" type="password" placeholder="Password"/>
             <hr/>
-            <button type="submit"></button>
+            <button type="submit">Войти</button>
         </form>
     </div>
 </template>
@@ -15,7 +15,7 @@
 <script>
     import myLoginRoutine from '../auth'
     export default {
-        data(){ 
+        data(){
             return{
                 form: {
                     login: "",
@@ -25,21 +25,13 @@
         },
         methods: {
             authorization(){
-                // let dt;
-                // let result = this.$api.post("Authorization/Authorization", this.form)
-                //     .then(res => {
-                //         const token = res.data.token;
-                //         localStorage.setItem('user-token', token);
-                //         resolve(res);
-                //     })
-                // .catch(err => {
-                //     localStorage.removeItem('user-token');
-                //     reject(err);
-                // });
-                // console.log(result);
-                // console.log(dt);
-                // this.$router.push('/');
-                myLoginRoutine(this.form).then(() => this.$router.push('/'))
+                myLoginRoutine(this.form).then(res => {
+                    if(res.request.response === "ErrorLogin"){
+                        console.log("Неверный логин или пароль")
+                    }
+                    else {
+                        this.$router.push('/')}
+                    })
             }
         }
     }
