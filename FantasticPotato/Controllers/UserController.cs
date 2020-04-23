@@ -1,4 +1,4 @@
-﻿using FantasticPotato.DB.Repository;
+using FantasticPotato.DB.Repository;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -10,9 +10,9 @@ namespace FantasticPotato.Controllers
     {
         private readonly UserModelRepository _userModelRepository;
 
-        public UserController()
+        public UserController(UserModelRepository UMR)
         {
-            _userModelRepository = new UserModelRepository();
+            _userModelRepository = UMR;
         }
 
         [Authorize]

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FantasticPotato.Controllers;
+using FantasticPotato.DB.Repository;
 using FantasticPotato.Models.DBModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -23,6 +25,7 @@ namespace FantasticPotato
         }
 
         public IConfiguration Configuration { get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
@@ -34,14 +37,21 @@ namespace FantasticPotato
                 options.AddDefaultPolicy(builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    );
+                );
             });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-            {
-                options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/User/Login");
-            });
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                    options => { options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/User/Login"); });
+            services.AddScoped<BookModelRepository>();
+            services.AddScoped<AuthorModelRepository>();
+            services.AddScoped<FeedbackRepository>();
+            services.AddScoped<UserModelRepository>();
+            services.AddScoped<AuthorizationController>();
+            services.AddScoped<RegistrationController>();
+            services.AddScoped<BookController>();
+            services.AddScoped<UserController>();
         }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             var db = app.ApplicationServices.GetService<AppDbContext>();
@@ -55,14 +65,14 @@ namespace FantasticPotato
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
             app.UseCors();
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(e =>
-                { e.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
+            app.UseEndpoints(e => { e.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
 
             app.UseSpaStaticFiles();
             app.UseSpa(spa =>

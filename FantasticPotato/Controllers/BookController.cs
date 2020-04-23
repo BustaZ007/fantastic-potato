@@ -8,9 +8,9 @@ namespace FantasticPotato.Controllers
     {
         private readonly BookModelRepository _bookModelRepository;
 
-        public BookController()
+        public BookController(BookModelRepository BMR)
         {
-            _bookModelRepository = new BookModelRepository();
+            _bookModelRepository = BMR;
         }
 
         [HttpGet]

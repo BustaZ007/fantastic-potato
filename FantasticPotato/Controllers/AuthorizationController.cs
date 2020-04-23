@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using FantasticPotato.DB.Repository;
 using FantasticPotato.Models;
+using FantasticPotato.Models.DBModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
@@ -22,18 +23,18 @@ namespace FantasticPotato.Controllers
         private readonly ILogger<AuthorizationController> _logger;
 
 
-        public AuthorizationController(ILogger<AuthorizationController> logger)
+        public AuthorizationController(ILogger<AuthorizationController> logger, UserModelRepository UMR)
         {
             _logger = logger;
-            _userModelRepository = new UserModelRepository();
+            _userModelRepository = UMR;
         }
 
         [HttpPost]
         public  async Task<IActionResult> Authorization([FromBody] UserModel userv)
         {
             IPHostEntry heserver = Dns.GetHostEntry(Dns.GetHostName());
-            // var ip = heserver.AddressList[2].ToString();
-            var ip = "0.0.0.0";
+            var ip = heserver.AddressList[2].ToString();
+            // var ip = "0.0.0.0";
             var userAgent = HttpContext.Request.Headers["User-Agent"].ToString();
             UserModel user;
             if (string.IsNullOrEmpty(userv.Login) || string.IsNullOrEmpty(userv.Password))
