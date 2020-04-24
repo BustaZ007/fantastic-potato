@@ -1,5 +1,4 @@
-﻿using System.IO;
-using FantasticPotato.DB.Repository;
+﻿using FantasticPotato.DB.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
