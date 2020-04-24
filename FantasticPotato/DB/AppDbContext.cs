@@ -5,14 +5,22 @@ using Microsoft.EntityFrameworkCore;
 namespace FantasticPotato.Models.DBModels
 {
     public class AppDbContext : DbContext
-
     {
+        IWebHostEnvironment env;
+
+        public AppDbContext(IWebHostEnvironment env)
+        {
+            this.env = env;
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+                // Я не знаю почему, но это не рабоатет
+                // optionsBuilder.UseSqlite("Data Source=" + Path.Combine(env.ContentRootPath, "fantastic_potato.db"));
                 optionsBuilder.UseSqlite(
-                    "Data Source = /Users/pavelzaborin/RiderProjects/FantasticPotato/fantastic-potato/FantasticPotato/fantastic_potato.db");
+                    "Data Source = E:/RiderProjects/fantastic-potato/FantasticPotato/fantastic_potato.db");
             }
         }
 

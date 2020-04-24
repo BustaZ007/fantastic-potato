@@ -15,10 +15,10 @@ namespace FantasticPotato.Controllers
         private readonly UserModelRepository _userModelRepository;
         private readonly ILogger<AuthorizationController> _logger;
 
-        public RegistrationController(ILogger<AuthorizationController> logger)
+        public RegistrationController(ILogger<AuthorizationController> logger, UserModelRepository UMR)
         {
             _logger = logger;
-            _userModelRepository = new UserModelRepository();
+            _userModelRepository = UMR;
         }
 
         [HttpPost]

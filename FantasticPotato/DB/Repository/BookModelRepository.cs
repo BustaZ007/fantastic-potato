@@ -11,9 +11,9 @@ namespace FantasticPotato.DB.Repository
     {
         private readonly AppDbContext _appDbContext;
 
-        public BookModelRepository()
+        public BookModelRepository(AppDbContext db)
         {
-            _appDbContext = new AppDbContext();
+            _appDbContext = db;
         }
 
         public void AddNew(BookModel book)

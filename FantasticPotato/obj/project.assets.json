@@ -1259,19 +1259,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Вувка\\.nuget\\packages\\": {}
+    "C:\\Users\\Dmitriy\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Вувка\\RiderProjects\\fantastic-potato\\FantasticPotato\\FantasticPotato.csproj",
+      "projectUniqueName": "E:\\RiderProjects\\fantastic-potato\\FantasticPotato\\FantasticPotato.csproj",
       "projectName": "FantasticPotato",
-      "projectPath": "C:\\Users\\Вувка\\RiderProjects\\fantastic-potato\\FantasticPotato\\FantasticPotato.csproj",
-      "packagesPath": "C:\\Users\\Вувка\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Вувка\\RiderProjects\\fantastic-potato\\FantasticPotato\\obj\\",
+      "projectPath": "E:\\RiderProjects\\fantastic-potato\\FantasticPotato\\FantasticPotato.csproj",
+      "packagesPath": "C:\\Users\\Dmitriy\\.nuget\\packages\\",
+      "outputPath": "E:\\RiderProjects\\fantastic-potato\\FantasticPotato\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Вувка\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Dmitriy\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"

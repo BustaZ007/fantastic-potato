@@ -12,9 +12,9 @@ namespace FantasticPotato.DB.Repository
         private readonly AppDbContext _appDbContext;
 
 
-        public AuthorModelRepository()
+        public AuthorModelRepository(AppDbContext db)
         {
-            _appDbContext = new AppDbContext();
+            _appDbContext = db;
         }
 
         public void AddNew(AuthorModel author)

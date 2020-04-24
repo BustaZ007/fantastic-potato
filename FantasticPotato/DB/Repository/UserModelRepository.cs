@@ -9,15 +9,15 @@ using Microsoft.EntityFrameworkCore;
 namespace FantasticPotato.DB.Repository
 {
     
-    //https://alekseev74.ru/lessons/show/aspnet-core-mvc/entity-framework-core информация, которая поможет
+   
     public class UserModelRepository : IUserModelRepository
 
     {
         private readonly AppDbContext _appDbContext;
 
-        public UserModelRepository()
+        public UserModelRepository(AppDbContext db)
         {
-            _appDbContext = new AppDbContext();
+            _appDbContext = db;
         }
         
         

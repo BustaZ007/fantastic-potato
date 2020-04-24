@@ -11,9 +11,9 @@ namespace FantasticPotato.DB.Repository
     {
         private readonly AppDbContext _appDbContext;
 
-        public FeedbackRepository()
+        public FeedbackRepository(AppDbContext db)
         {
-            _appDbContext = new AppDbContext();
+            _appDbContext = db;
         }
 
         public void AddNew(FeedbackModel feedback)
